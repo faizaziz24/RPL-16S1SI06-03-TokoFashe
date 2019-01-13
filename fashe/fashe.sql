@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 04, 2019 at 01:26 PM
+-- Generation Time: Jan 13, 2019 at 09:14 PM
 -- Server version: 10.1.36-MariaDB
 -- PHP Version: 5.6.38
 
@@ -21,6 +21,34 @@ SET time_zone = "+00:00";
 --
 -- Database: `fashe`
 --
+CREATE DATABASE IF NOT EXISTS `fashe` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `fashe`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+DROP TABLE IF EXISTS `admin`;
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `name_adm` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_adm` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `password_adm` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `is_admin` tinyint(1) DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `name_adm`, `email_adm`, `password_adm`, `created_at`, `is_admin`) VALUES
+(1, 'Faizal Fahmi Aziz', 'faizaziz24@gmail.com', '712507e6eab5ad43ffee3f97c23d01c5', '2019-01-03 18:16:45', 1),
+(2, 'admin1', 'admin1@gmail.com', '21232f297a57a5a743894a0e4a801fc3', '2019-01-04 13:29:26', 1),
+(3, 'admin2', 'admin2@gmail.com', '21232f297a57a5a743894a0e4a801fc3', '2019-01-04 13:29:44', 1),
+(4, 'admin3', 'admin3@gmail.com', '21232f297a57a5a743894a0e4a801fc3', '2019-01-04 13:30:14', 1);
 
 -- --------------------------------------------------------
 
@@ -28,6 +56,7 @@ SET time_zone = "+00:00";
 -- Table structure for table `ages`
 --
 
+DROP TABLE IF EXISTS `ages`;
 CREATE TABLE `ages` (
   `age_id` int(11) NOT NULL,
   `age_name` varchar(255) NOT NULL,
@@ -50,6 +79,7 @@ INSERT INTO `ages` (`age_id`, `age_name`, `created_at`) VALUES
 -- Table structure for table `buy`
 --
 
+DROP TABLE IF EXISTS `buy`;
 CREATE TABLE `buy` (
   `buy_id` int(11) NOT NULL,
   `customer_id` int(11) NOT NULL,
@@ -64,6 +94,7 @@ CREATE TABLE `buy` (
 -- Table structure for table `buy_detail`
 --
 
+DROP TABLE IF EXISTS `buy_detail`;
 CREATE TABLE `buy_detail` (
   `buy_detail_id` int(11) NOT NULL,
   `buy_id` int(11) NOT NULL,
@@ -78,6 +109,7 @@ CREATE TABLE `buy_detail` (
 -- Table structure for table `buy_tmp`
 --
 
+DROP TABLE IF EXISTS `buy_tmp`;
 CREATE TABLE `buy_tmp` (
   `tmp_buy_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
@@ -93,6 +125,7 @@ CREATE TABLE `buy_tmp` (
 -- Table structure for table `categories`
 --
 
+DROP TABLE IF EXISTS `categories`;
 CREATE TABLE `categories` (
   `category_id` int(11) NOT NULL,
   `category_name` varchar(255) NOT NULL,
@@ -113,9 +146,25 @@ INSERT INTO `categories` (`category_id`, `category_name`, `category_image`, `cat
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `custom`
+--
+
+DROP TABLE IF EXISTS `custom`;
+CREATE TABLE `custom` (
+  `custom_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `receiver` varchar(255) NOT NULL,
+  `address` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customers`
 --
 
+DROP TABLE IF EXISTS `customers`;
 CREATE TABLE `customers` (
   `customer_id` int(11) NOT NULL,
   `customer_name` varchar(255) NOT NULL,
@@ -137,9 +186,49 @@ INSERT INTO `customers` (`customer_id`, `customer_name`, `customer_phone`, `cust
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `custom_detail`
+--
+
+DROP TABLE IF EXISTS `custom_detail`;
+CREATE TABLE `custom_detail` (
+  `custom_detail_id` int(11) NOT NULL,
+  `custom_id` int(11) NOT NULL,
+  `age_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `material_id` int(11) NOT NULL,
+  `custom_file` varchar(255) NOT NULL,
+  `custom_description` text NOT NULL,
+  `price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '1'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `custom_tmp`
+--
+
+DROP TABLE IF EXISTS `custom_tmp`;
+CREATE TABLE `custom_tmp` (
+  `tmp_custom_id` int(11) NOT NULL,
+  `age_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  `material_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `custom_file` varchar(255) NOT NULL,
+  `custom_description` text NOT NULL,
+  `price` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL DEFAULT '1',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `materials`
 --
 
+DROP TABLE IF EXISTS `materials`;
 CREATE TABLE `materials` (
   `material_id` int(11) NOT NULL,
   `material_name` varchar(255) NOT NULL,
@@ -163,6 +252,7 @@ INSERT INTO `materials` (`material_id`, `material_name`, `material_image`, `mate
 -- Table structure for table `products`
 --
 
+DROP TABLE IF EXISTS `products`;
 CREATE TABLE `products` (
   `product_id` int(11) NOT NULL,
   `age_id` int(11) NOT NULL,
@@ -189,6 +279,7 @@ INSERT INTO `products` (`product_id`, `age_id`, `category_id`, `material_id`, `p
 -- Table structure for table `sliders`
 --
 
+DROP TABLE IF EXISTS `sliders`;
 CREATE TABLE `sliders` (
   `slider_id` int(11) NOT NULL,
   `slider_name` varchar(255) NOT NULL,
@@ -207,9 +298,38 @@ INSERT INTO `sliders` (`slider_id`, `slider_name`, `slug`, `slider_image`, `slid
 (2, 'lorem ipsum', 'lorem-ipsum', 'master-slide-02.jpeg', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2018-12-12 17:35:43'),
 (3, 'Lorem ipsum dolor', 'Lorem-ipsum-dolor', 'master-slide-03.jpeg', 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.', '2018-12-12 17:36:15');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `suggestion`
+--
+
+DROP TABLE IF EXISTS `suggestion`;
+CREATE TABLE `suggestion` (
+  `suggest_id` int(11) NOT NULL,
+  `suggest_name` varchar(255) NOT NULL,
+  `suggest_phone` varchar(20) NOT NULL,
+  `suggest_email` varchar(255) NOT NULL,
+  `suggest_message` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `suggestion`
+--
+
+INSERT INTO `suggestion` (`suggest_id`, `suggest_name`, `suggest_phone`, `suggest_email`, `suggest_message`, `created_at`) VALUES
+(1, 'Citra Avitka Mawar Stri', '08213321245231', 'citraav@gmail.com', 'as', '2019-01-04 12:24:17');
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `ages`
@@ -247,10 +367,37 @@ ALTER TABLE `categories`
   ADD PRIMARY KEY (`category_id`);
 
 --
+-- Indexes for table `custom`
+--
+ALTER TABLE `custom`
+  ADD PRIMARY KEY (`custom_id`),
+  ADD KEY `custom_ibfk_1` (`customer_id`);
+
+--
 -- Indexes for table `customers`
 --
 ALTER TABLE `customers`
   ADD PRIMARY KEY (`customer_id`);
+
+--
+-- Indexes for table `custom_detail`
+--
+ALTER TABLE `custom_detail`
+  ADD PRIMARY KEY (`custom_detail_id`),
+  ADD KEY `customdetail_ibfk_1` (`custom_id`),
+  ADD KEY `customdetail_ibfk_2` (`age_id`),
+  ADD KEY `customdetail_ibfk_3` (`category_id`),
+  ADD KEY `customdetail_ibfk_4` (`material_id`);
+
+--
+-- Indexes for table `custom_tmp`
+--
+ALTER TABLE `custom_tmp`
+  ADD PRIMARY KEY (`tmp_custom_id`),
+  ADD KEY `customtmpdetail_ibfk_1` (`customer_id`),
+  ADD KEY `customtmpdetail_ibfk_2` (`age_id`),
+  ADD KEY `customtmpdetail_ibfk_3` (`category_id`),
+  ADD KEY `customtmpdetail_ibfk_4` (`material_id`);
 
 --
 -- Indexes for table `materials`
@@ -274,8 +421,20 @@ ALTER TABLE `sliders`
   ADD PRIMARY KEY (`slider_id`);
 
 --
+-- Indexes for table `suggestion`
+--
+ALTER TABLE `suggestion`
+  ADD PRIMARY KEY (`suggest_id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `ages`
@@ -305,7 +464,13 @@ ALTER TABLE `buy_tmp`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `custom`
+--
+ALTER TABLE `custom`
+  MODIFY `custom_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `customers`
@@ -314,10 +479,22 @@ ALTER TABLE `customers`
   MODIFY `customer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
+-- AUTO_INCREMENT for table `custom_detail`
+--
+ALTER TABLE `custom_detail`
+  MODIFY `custom_detail_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `custom_tmp`
+--
+ALTER TABLE `custom_tmp`
+  MODIFY `tmp_custom_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `materials`
 --
 ALTER TABLE `materials`
-  MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `material_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -330,6 +507,12 @@ ALTER TABLE `products`
 --
 ALTER TABLE `sliders`
   MODIFY `slider_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT for table `suggestion`
+--
+ALTER TABLE `suggestion`
+  MODIFY `suggest_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Constraints for dumped tables
@@ -354,6 +537,30 @@ ALTER TABLE `buy_detail`
 ALTER TABLE `buy_tmp`
   ADD CONSTRAINT `tmpbuy_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
   ADD CONSTRAINT `tmpbuy_ibfk_2` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`);
+
+--
+-- Constraints for table `custom`
+--
+ALTER TABLE `custom`
+  ADD CONSTRAINT `custom_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`);
+
+--
+-- Constraints for table `custom_detail`
+--
+ALTER TABLE `custom_detail`
+  ADD CONSTRAINT `customdetail_ibfk_1` FOREIGN KEY (`custom_id`) REFERENCES `custom` (`custom_id`),
+  ADD CONSTRAINT `customdetail_ibfk_2` FOREIGN KEY (`age_id`) REFERENCES `ages` (`age_id`),
+  ADD CONSTRAINT `customdetail_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
+  ADD CONSTRAINT `customdetail_ibfk_4` FOREIGN KEY (`material_id`) REFERENCES `materials` (`material_id`);
+
+--
+-- Constraints for table `custom_tmp`
+--
+ALTER TABLE `custom_tmp`
+  ADD CONSTRAINT `customtmpdetail_ibfk_1` FOREIGN KEY (`customer_id`) REFERENCES `customers` (`customer_id`),
+  ADD CONSTRAINT `customtmpdetail_ibfk_2` FOREIGN KEY (`age_id`) REFERENCES `ages` (`age_id`),
+  ADD CONSTRAINT `customtmpdetail_ibfk_3` FOREIGN KEY (`category_id`) REFERENCES `categories` (`category_id`),
+  ADD CONSTRAINT `customtmpdetail_ibfk_4` FOREIGN KEY (`material_id`) REFERENCES `materials` (`material_id`);
 
 --
 -- Constraints for table `products`
